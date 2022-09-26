@@ -1,0 +1,36 @@
+﻿@model MoviesWebApplication.Playlist
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Створення нової підбірки</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreateRes">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="UserName" class="control-label"></label>
+                <label>@User.Identity.Name</label>
+                <input type="hidden" asp-for="UserName" value="@User.Identity.Name" />
+            </div>
+             
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Створити" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="PlayList">Повернутися назад</a>
+</div>
+

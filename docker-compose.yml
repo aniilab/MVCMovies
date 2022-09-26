@@ -1,0 +1,36 @@
+version: '3.4'
+
+services:
+  movieswebapplication:
+    image: movieswebapplication
+    build:
+      context: .
+      dockerfile: MoviesWebApplication/Dockerfile
+    depends_on:
+        - sqlserverService
+    networks:
+        - moviesnet
+    environment:
+        - ASPNETCORE_ENVIRONMENT=Development
+        - ASPNETCORE_URLS=https://+:443;http://+:80
+    ports:
+        - "80"
+        - "443"
+
+  sqlserverService:
+    image: mcr.microsoft.com/mssql/server:latest
+    hostname: sqlserverService
+    container_name: sqlserverService
+    environment:
+        ACCEPT_EULA: Y
+        SA_PASSWORD: STrongPassword1!
+    volumes:
+        - ./data/mssql:/var/opt/mssql3
+    ports:
+        - 1433:1433
+    networks:
+        - moviesnet
+networks:
+    moviesnet:
+        driver: bridge
+  

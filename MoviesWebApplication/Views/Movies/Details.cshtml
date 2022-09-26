@@ -1,0 +1,103 @@
+﻿@model MoviesWebApplication.Movie
+
+
+
+<style>
+   .poster
+   {
+   float: right;
+   margin-bottom: 65px;
+   }
+</style>
+
+<p>
+
+    <div>
+        <h2>Movie in details</h2>
+        <h4>Дізнайся більше про фільм</h4>
+        <hr />
+        <img src="@Model.Picture" alt="Постер до фільму " width="25%" class="poster">
+        <table>
+                
+            <tr>
+                <td> @Html.DisplayNameFor(model => model.Name)</td>
+                <td>            @Html.DisplayFor(model => model.Name)     </td>
+                <td rowspan="7" colspan ="3">  </td>
+               <td  rowspan="11" colspan="2" scope="rowgroup" class="poster">
+                    
+                </td>
+            </tr>
+            <tr>
+                <td> @Html.DisplayNameFor(model => model.MoviesGenres)</td>
+
+                <td>
+                    @Html.Raw(string.Join(", ", @Model.MoviesGenres.Select(x => x.Genre.Name).ToList()))
+                </td>
+            </tr>
+            <tr>
+                <td>  @Html.DisplayNameFor(model => model.Duration)</td>
+                <td>
+                    @Html.DisplayFor(model => model.Duration)
+                </td>
+            </tr>
+            <tr>
+                <td>  @Html.DisplayNameFor(model => model.Production) </td>
+                <td>
+                    @Html.ActionLink(@Model.Production.Name, "Details", "Productions", routeValues: new {id = @Model.ProductionId})
+                </td>
+            </tr>
+            <tr>
+                <td>  @Html.DisplayNameFor(model => model.ArtistsJobsInMovies)</td>
+                <td>
+                    @Html.Raw(string.Join(", ", @Model.ArtistsJobsInMovies.Select(x => x.Artist.Name + " - " + x.Job).ToList()))
+                </td>
+            </tr>
+            <tr>
+                <td>
+                  
+                    <iframe style="border-radius:12px" src="@Model.Soundtracks" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </td>
+            </tr>
+
+        </table>
+    </div>
+    <a asp-action="List" style:margine>Повернутися назад</a>
+</p>
+
+
+
+@*
+
+    <dl  class="row">
+    <dt class = "col-sm-2">
+    @Html.DisplayNameFor(model => model.Name)
+    </dt>
+    <dd class = "col-sm-10">
+    @Html.DisplayFor(model => model.Name)
+    </dd>
+    <dt class = "col-sm-2">
+    @Html.DisplayNameFor(model => model.MoviesGenres)
+    </dt>
+    <dd class = "col-sm-10">
+    @Html.Raw(string.Join(", ", @Model.MoviesGenres.Select(x => x.Genre.Name).ToList()))
+    </dd>
+    <dt class = "col-sm-2">
+    @Html.DisplayNameFor(model => model.Duration)
+    </dt>
+    <dd class = "col-sm-10">
+    @Html.DisplayFor(model => model.Duration)
+    </dd>
+    <dt class = "col-sm-2">
+    @Html.DisplayNameFor(model => model.Production)
+    </dt>
+    <dd class = "col-sm-10">
+    @Html.ActionLink(@Model.Production.Name, "Details", "Productions", routeValues: new {id = @Model.ProductionId})
+    </dd>
+    <dt class = "col-sm-2">
+    @Html.DisplayNameFor(model => model.ArtistsJobsInMovies)
+    </dt>
+    <dd class = "col-sm-10">
+    @Html.Raw(string.Join(", ", @Model.ArtistsJobsInMovies.Select(x => x.Artist.Name + " - " + x.Job).ToList()))
+    </dd>
+    </dl>
+*@

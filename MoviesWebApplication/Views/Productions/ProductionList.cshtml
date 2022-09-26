@@ -1,0 +1,124 @@
+﻿@using Newtonsoft.Json
+@model IEnumerable<MoviesWebApplication.Production>
+
+
+
+<h1>Провідні кінокомпанії світу</h1>
+
+
+<p>
+    @{
+        if (User.IsInRole("admin"))
+        {
+            <form method="post" asp-controller="Productions" asp-action="Create">
+                <input type="submit" value="Додати кіностудію" />
+            </form>
+        }
+    }
+</p>
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Country)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Country)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">Роботи кінокомпанії</a>
+                    @{
+                        if (User.IsInRole("admin"))
+                        {
+                            <a asp-action="Delete" asp-route-id="@item.Id">| Видалити |</a>
+                            <a asp-action="Edit" asp-route-id="@item.Id">Змінити</a>
+                        }
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    #map {
+        height: 500px;
+        width: 80%;
+    }
+</style>
+
+<div id="map"></div>
+<script type="text/javascript">
+    function initMap() {
+    var location = { lat: 50.439613, lng: 30.516939 };
+    var map = new google.maps.Map(document.getElementById("map"), {
+    zoom: 2,
+    center: location
+    });
+    @foreach (var item in Model) {
+        <text>
+            addMarker({lat: @item.Long, lng: @item.Let});
+        </text>
+    }
+    function addMarker(coords){
+        var marker = new google.maps.Marker({
+        position:coords,
+        map:map
+    });   
+
+    }
+        }
+    </script>
+
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBazyxjpd6omEt-miarKlVen6DElYQ527g&callback=initMap">
+
+</script>
+
+<div class="container">
+    <div id="chart1"></div>
+</div>
+@section scripts{
+<script type "text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script>
+    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+
+            $.get('/api/Charts/JsonData1', function(JsonData1) {
+                data = google.visualization.arrayToDataTable(JsonData1, false);
+                var option = {
+                    title: "Співвідношення кількості фільмів та кінокомпаній",
+                    width: 500,
+                    height: 400
+                };
+                chart = new google.visualization.PieChart(document.getElementById('chart1'));
+                chart.draw(data, option);
+            })
+        }
+</script>
+}

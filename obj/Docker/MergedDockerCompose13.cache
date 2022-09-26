@@ -1,0 +1,16 @@
+services:
+  movieswebapplication:
+    build:
+      context: D:\c#\MoviesWebApplication
+      dockerfile: MoviesWebApplication/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: https://+:443;http://+:80
+    image: movieswebapplication
+    ports:
+    - target: 80
+    - target: 443
+    volumes:
+    - C:\Users\Алина\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https:ro
+    - C:\Users\Алина\AppData\Roaming\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro
+version: '3.4'
